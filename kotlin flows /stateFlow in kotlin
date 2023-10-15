@@ -2,6 +2,7 @@ StateFlow maintain its last state , so its kind of buffer/box in which stateflow
 new listener join then listener can get last updated value because of StateFlow 
 StateFlow hot in nature 
 
+// stateflow is better than livedata as we can context switch and more operators
 we can use StateFlow where we need to maintain State 
 
 GlobalScope.launch{
