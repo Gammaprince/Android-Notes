@@ -67,3 +67,15 @@ GlobalScope(Dispatchers.Main).launch{
             
              }
 }
+
+// we can check more operators in documentation , but according to cheezy code , lets talk about last operator
+buffer , it is non-terminal keyword used to buffer , lets suppose there is emitter and collector , if emitter emits too fast than collector to process
+or vice-versa , we can use buffering to make code faster.
+
+buffer holds until collector process last stored buffer capacity and if capacity is full then buffer stops to emit emitter  more values;
+this is how it works.
+there is capacity , there is no thumb of rule to define capacity.
+
+producer().
+          buffer(3).
+          collect{}
