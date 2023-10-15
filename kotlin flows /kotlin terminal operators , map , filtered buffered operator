@@ -58,6 +58,12 @@ data class FormattedNotes(val id , val title);
 GlobalScope(Dispatchers.Main).launch{
     getNotes().
              map{
-                FormattedNotes(it.id,it.title);
+                FormattedNotes(it.id,it.title); // mapped it into formattedNotes;
+             }.
+             filter.{
+                it.isActive // filtered out non active Notes by using filter operator.
+             }
+             collect{
+            
              }
 }
