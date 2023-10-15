@@ -1,0 +1,63 @@
+GlobalScope(Dispatchers.Main).launch{
+    val job = producer()
+                       .onStart{ 
+                          // you can custom emit any value in flows
+                           emit(-1);
+                          // first call;
+                           Log.d("TAG","on Starting out");
+                       }
+                       .onCompletion{
+                           // last call;
+                           Log.d("TAG","on completion");
+                       }
+                       .onEach{
+                           // every call before every stream;
+                           Log.d("TAG" , "before every stream");
+                       }
+                       .collect{
+                         // producer only collect when it has terminal operator like .collect in it;
+                       }
+}
+// usecase of above :
+                     suppose you maintain UI state of app , you receive State flow from network , we write code , when flow starts 
+                     we can show loader , we can then show data in b/w , after completion we can show complete and other logic.
+
+Flows operator : 
+    1 -> Terminal operator , these operator starts our flow , all terminal operator are suspendable
+    2 -> Non-Terminal operator
+
+producer().first() // this will give first element of flow
+producer.toList() // this will give list of datastream 
+
+non terminal operators 
+
+   producer().map{
+    // it maps original data , class or anything
+     it*2; // it will multiply original integer * 2;
+   }
+   .filter{
+    it < 8 // this will collect only if it has value < 8;
+   }
+   .collect{
+   }
+
+// below is example how you can use map operator to map differenct data classes;
+
+private fun getNotes() : flow<Notes> {
+   val list = listOf{
+      Notes(1,true,"First","First Description"),
+      Notes(2,true,"Second","Second Description"),
+      Notes(3,false,"Third","Third Description")
+   }
+return list.asFlow();
+}
+
+data class Notes(val id , val isActive , val title , val desc);
+data class FormattedNotes(val id , val title);
+
+GlobalScope(Dispatchers.Main).launch{
+    getNotes().
+             map{
+                FormattedNotes(it.id,it.title);
+             }
+}
