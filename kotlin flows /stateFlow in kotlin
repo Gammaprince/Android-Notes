@@ -1,0 +1,23 @@
+StateFlow maintain its last state , so its kind of buffer/box in which stateflow updates value every time and whenever
+new listener join then listener can get last updated value because of StateFlow 
+StateFlow hot in nature 
+
+we can use StateFlow where we need to maintain State 
+
+GlobalScope.launch{
+       producer()
+                .collect{
+                     delay(6000);
+                     // after 6s value of stateflow will be 30 as it was last updated value;
+                }
+}
+
+private fun producer(): StateFlow<Int>() {
+    val mutableStateFlow = MutableStateFlow<>(10) // it will require initial value;
+    GlobalScope.launch{
+        delay(1000);
+        mutableStateFlow.emit(20);
+        delay(1000);
+        mutableStateFlow.emit(30);
+    }
+}
