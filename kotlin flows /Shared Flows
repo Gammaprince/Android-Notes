@@ -1,0 +1,22 @@
+Shared flows are hot in nature unlike normal flows they are cold in nature means , hot flow means if some listener joined
+after sometime then receiver will receive latest info and would not get data from start
+
+GlobalScope(Dispatchers.Main){
+    producer().
+              collect{
+
+              }
+}
+
+
+// We make return type of Flow<Int> because we don't want any other to emit value after exposing . Its encapsulate
+private fun producer() : Flow<Int> {
+    val mutableSharedFlow = MutableSharedFlow<Int>(); // we have replay property means if some listener join after then it would give value from last of replay SharedFlow<>(3) this will start to emit 3 values previous than current value of sharedflow
+    GlobalScope(Dispatchers.IO){
+        val list = lisfOf<Int>(1,2,3,4,5)
+        list.forEach{
+            sharedFlow.emit(it)
+        }
+    }
+  return mutableSharedFlow
+}
