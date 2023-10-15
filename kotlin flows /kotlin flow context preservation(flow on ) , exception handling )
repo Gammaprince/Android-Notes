@@ -1,0 +1,43 @@
+suppose if we want to emit on differenct thread and collect on Main thread in that case we have to use flowOn operator for eg
+
+GlobalScope(Dispatcher.Main).launch{
+    producer(). // this will be run on IO thread as flowOn work on upstream means above of flowOn it execute on mentioned thread
+              flowOn(Dispatchers.IO). // this will be run on IO thread
+              collect{
+                  // this will be run on Main thread
+              }
+}
+private fun producer() : flow<Int> {
+val list = listOf(1,2,3,4,5);
+ return list.asFlow();
+}
+//we use flowon for switching of threads.
+
+// Now we will talk about exception handeling in flows
+
+
+GlobalScope(Dispatcher.Main).launch{
+try{
+    producer(). // this will be run on IO thread as flowOn work on upstream means above of flowOn it execute on mentioned thread
+              flowOn(Dispatchers.IO). // this will be run on IO thread
+              collect{
+                  // this will be run on Main thread
+              }
+   }
+catch(e : Exception){
+        Log.d("TAG",e.message().toString());
+  }
+}
+private fun producer() : flow<Int> {
+return flow {
+    val list = listOf(1,2,3,4,5);
+    list.forEach{
+        emit(it);
+        throw Exception("Exception in emitter");
+    }
+   }.
+   catch{
+       Log.d("TAG","Emitter catch ${it.message}")
+   }
+// we can catch every lambda function using .catch()
+}
