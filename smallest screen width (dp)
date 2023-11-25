@@ -1,0 +1,6 @@
+smallest screen width is the width of small side of device , we can define some devices screen with that
+
+320 dp -> small to medium phone screens 
+480 dp -> large phone screens (~5inch)
+600 dp -> small tablets screens (~7inch)
+720 dp -> large tablets screens (~10inch)
