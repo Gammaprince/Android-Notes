@@ -1,0 +1,25 @@
+we use RememberUpdateState to reflect updated value inside Launched Effect
+
+fun App(){
+   var counter = remember{ mutableStateOf(0)}
+    LaunchedEffect(key1 = Unit){
+         delay(2000)
+         counter.value = 10
+    }
+    Counter(counter.value)
+}
+
+@Composable
+fun Counter(value:Int){ 
+   val state = rememberUpdatedState(newValue = value)
+   LaunchedEffect(key1 = Unit){
+      delay(5000)
+      //here value will be reflected without relaunching this launchedEffect , launchedEffect will be relaunch if we decided to set key1 = value , so whenever value will be changing LaunchedEffect will cancel current coroutine and launch new 
+     // and here we want to not restart long running task to reflect value , so we used rememberUpdatedState to get value in realtime without restarting long running operation 
+      Log.d("CODE", value.toString()}
+}
+   Text(text = value.toString())
+}
+}
+
+without closing and relaunching launchedeffect we can reflect value in realtime using rememberUpdatedState()
