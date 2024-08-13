@@ -1,0 +1,11 @@
+when composable goes off screen then onDispose method will be called of disposableEffect , or key changes then previous scope will be cancelled and disposableEffect will be 
+  called again
+
+  @Composable
+  fun Screen(){
+    DisposableEffect(key1 = Unit){
+      override onDispose(){
+        // This will be called to perform cleanups , this will also called if Screen is no more visible so that developer can perform cleanups
+      }
+    }
+  }
