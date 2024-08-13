@@ -16,7 +16,7 @@ fun Counter(value:Int){
       delay(5000)
       //here value will be reflected without relaunching this launchedEffect , launchedEffect will be relaunch if we decided to set key1 = value , so whenever value will be changing LaunchedEffect will cancel current coroutine and launch new 
      // and here we want to not restart long running task to reflect value , so we used rememberUpdatedState to get value in realtime without restarting long running operation 
-      Log.d("CODE", value.toString()}
+      Log.d("CODE", state.value.toString()}
 }
    Text(text = value.toString())
 }
