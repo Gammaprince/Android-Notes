@@ -1,0 +1,15 @@
+ProducedState is to make a state from another state in jetpack compose , like from liveData or from flows
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier, viewmodel: MainViewModel) {
+   Column(modifier = Modifier.fillMaxSize() , horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.Center) {
+       val state = produceState(initialValue = 0) {
+           viewmodel.stateFlow.collect{
+               value = it
+           }
+       }
+       Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = null , modifier = Modifier.rotate(state.value.toFloat()))
+   }
+}
+
+here we crate a new state from stateflow using producedState
