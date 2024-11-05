@@ -1,0 +1,13 @@
+using const in kotlin has better advantage here it is why 
+
+suppose you are creating a variable
+
+val name = "Prince"
+
+this is jvm code -> String name = Constant.INSTANCE.getName() , here it is calling a function which is a call overhead. which will create extra overhead runtime.
+
+suppose now we are creating this same  variable using const
+
+const val name = "Prince: 
+
+this is jvm code -> String name = "Prince" , here no extra call overhead , no function called as it has been inlined which lead to better performance.
