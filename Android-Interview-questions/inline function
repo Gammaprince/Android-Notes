@@ -1,0 +1,1 @@
+inline function is a function which copy-paste same code from which it has been called in compile-time to increase performance of code because it reduces call overhead.
