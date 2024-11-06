@@ -1,0 +1,12 @@
+Unit testing is important to test functionality in isolation
+
+there are two type of testing 
+1-> kotlin/java (pure logic) based , can be tested with JVM(Desktop only - JUnit)
+2-> For Android tests , we need device (instrumentation Test)
+3-> Android Tests can be further divided into UI Tests (Espresso) and Non-UI Test
+
+Unit Testing 
+ -> JVM Test( Local Unit Test)
+ -> Android Test(instrumentation)
+       -> UI Based
+       -> Non-UI Based
