@@ -1,0 +1,68 @@
+the no1 mistake as an android developer one can make while managing state in comopose is that
+
+data class UiData(val counter : Int = 0 , val name : String = "")
+
+private var _list = MutableStateOf(UiData())
+
+coroutineScope(Dispatchers.IO){
+ _list.value = _state.value.copy(count = _list.value.counter + 1) 
+ }
+
+ coroutineScope(Dispatchers.IO){
+ _list.value = _state.value.copy(count = _list.value.counter + 1) 
+ }
+
+ here what can be happen is that two different coroutine which may run on same thread might cause issue to fall in some race condition instead of value we should use update{} , here is how 
+
+Problem No -> 1
+
+data class UiData(val counter : Int = 0 , val name : String = "")
+
+private var _list = MutableStateOf(UiData())
+
+coroutineScope(Dispatchers.IO){
+     _list.update{
+         it.copy(count = _list.value.counter + 1)
+      }
+ }
+
+ coroutineScope(Dispatchers.IO){
+ _list.update{
+     it.copy(count = _list.value.counter + 1)
+    }
+ }
+
+ now update will solve this issue as it will not fall in race condition , as update is not less performant to value so we should always use update{} while updating value in mutablestate
+ as using this will solve problem 
+
+
+ Problem No->2
+
+   here lets talk about process death , Android is hungry for memory , battery etc so at any given time android Os may kill process of app 
+   but app is currently in backstack when user will again come to app , all values and data will be gone and it will be load from initial state,
+   we can use SavedStateHandler. here is example 
+
+   class MainViewModel(
+     private val savedStateHandle : SavedStateHandle
+  ) : ViewModel() {
+
+  // SavedStateHandler uses key value pair to save data we should use this as this survives process death
+        val state = savedStateHandle.getStateFlow("state",MyUiState())
+        // this state will work as StateFlow for outer side call
+
+      fun incrementCount() {
+          viewModelScope.launch{
+              savedStateHandle["state"] = savedStateHandle.get<MyUiState>("state")?.copy( counter = state.value.counter+1)
+    )
+  }
+
+
+
+  problem No -> 3
+
+  when using some value which you want to store in object class (singelon) and global , you should remember this that 
+  when process death happen then value inside object get flush out , so to handle it you should use some persistent database like room 
+  so that you can get cache stored in room while process death happen .
+
+   
+ 
