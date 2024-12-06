@@ -1,0 +1,11 @@
+if you want infinite repeatable value you can use 
+
+val transition = rememberInfiniteTransition()
+val color by transition.animateColor(
+    initialValue = Color.Red,
+    targetValue = Color.Green,
+    animationSpec = infiniteRepeatable(
+        animation = tween(duration = 2000),
+        repeatMode = RepeatMode.reverse
+    )
+    
